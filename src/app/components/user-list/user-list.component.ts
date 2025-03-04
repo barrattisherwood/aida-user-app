@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UserDetailsComponent } from '../user-details/user-details.component';
 import { SearchComponent } from '../search/search.component';
 import { MatIconButton } from '@angular/material/button';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-list',
@@ -18,14 +19,16 @@ import { MatIconButton } from '@angular/material/button';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
-  users: any[] = [];
-  filteredUsers: any[] = [];
+  users: User[] = [];
+  filteredUsers: User[] = [];
 
   constructor(private userService: UserService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe((data) => {
+      this.users = data;
       this.filteredUsers = data;
+      console.log('Users loaded:', this.users);
     });
   }
 
@@ -47,14 +50,16 @@ export class UserListComponent {
     });
   }
 
-  trackByUserId(index: number, user: any): number {
+  trackByUserId(user: User): string {
     return user.id;
   }
 
   onSearch(searchTerm: string): void {
+    console.log('Search term:', searchTerm);
     this.filteredUsers = this.users.filter(user =>
       user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    console.log('Filtered users:', this.filteredUsers);
   }
 }
