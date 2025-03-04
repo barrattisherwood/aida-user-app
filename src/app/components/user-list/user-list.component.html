@@ -1,0 +1,21 @@
+@if (users.length) {
+    <mat-list>
+        @for (user of users; track user.id) {
+            <mat-list-item>
+                <mat-icon matListIcon>folder</mat-icon>
+                <h3 matListItemTitle>{{ user.fullName }}</h3>
+                <p matListItemLine>{{ user.email }}</p>
+                <p matListItemLine>{{ user.details }}</p>
+                <a matListItemLine [routerLink]="['/user', user.id]">Edit</a>
+                <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+            </mat-list-item>
+        }
+    </mat-list>
+}
+@if (!users.length) {
+    <mat-card>
+        <p>No users found.</p>
+    </mat-card>
+}

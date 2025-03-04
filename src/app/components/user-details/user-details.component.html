@@ -1,0 +1,11 @@
+@if (user) {
+    <mat-card>
+        <h2>{{ user.fullName }}</h2>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Details:</strong> {{ user.details }}</p>
+    </mat-card>
+} @else {
+    <mat-card>
+        <p>No user found.</p>
+    </mat-card>
+}
