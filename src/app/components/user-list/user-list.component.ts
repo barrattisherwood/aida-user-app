@@ -21,8 +21,9 @@ import { User } from '../../models/user.model';
 export class UserListComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
+  sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private userService: UserService, public dialog: MatDialog) {}
+  constructor(private userService: UserService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe((data) => {
@@ -55,11 +56,22 @@ export class UserListComponent {
   }
 
   onSearch(searchTerm: string): void {
-    console.log('Search term:', searchTerm);
     this.filteredUsers = this.users.filter(user =>
       user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    console.log('Filtered users:', this.filteredUsers);
+  }
+
+  sortUsersBy(field: keyof User): void {
+    this.users.sort((a, b) => {
+      if (a[field] < b[field]) {
+        return this.sortDirection === 'asc' ? -1 : 1;
+      } else if (a[field] > b[field]) {
+        return this.sortDirection === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
   }
 }

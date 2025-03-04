@@ -1,33 +1,49 @@
 <app-search (search)="onSearch($event)"></app-search>
 
 @if (filteredUsers.length) {
-    <mat-list>
-        @for (user of filteredUsers; track trackByUserId) {
-            <mat-list-item class="user-list-item" role="listitem">
-                <p matListItemTitle><mat-icon>person</mat-icon>{{ user.fullName }}</p>
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
-                    <mat-icon>more_vert</mat-icon>
-                  </button>
-                  <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="openUserDetails(user.id)">
-                      <mat-icon>edit</mat-icon>
-                      <span>Edit</span>
-                    </button>
-                    <button mat-menu-item (click)="deleteUser(user.id)">
-                      <mat-icon>delete</mat-icon>
-                      <span>Delete</span>
-                    </button>
-                    <button mat-menu-item>
-                      <mat-icon>notifications_off</mat-icon>
-                      <span>Disable alerts</span>
-                    </button>
-                  </mat-menu>
-            </mat-list-item>
-        }
-    </mat-list>
+<mat-list>
+  <mat-list-item class="user-list-item" role="listitem">
+    <p matListItemTitle>
+      ID
+      <button mat-icon-button (click)="sortUsersBy('id')">
+        <mat-icon>swap_vert</mat-icon>
+      </button>
+    </p>
+    <p matListItemTitle>
+      Display Name
+      <button mat-icon-button (click)="sortUsersBy('displayName')">
+        <mat-icon>swap_vert</mat-icon>
+      </button>
+    </p>
+    <p matListItemTitle>Email</p>
+    <p></p>
+  </mat-list-item>
+  @for (user of filteredUsers; track trackByUserId) {
+  <mat-list-item class="user-list-item" role="listitem">
+    <p matListItemTitle>{{ user.id }}</p>
+    <p matListItemTitle>{{ user.displayName }}</p>
+    <p matListItemTitle>{{ user.email }}</p>
+    <p>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openUserDetails(user.id)">
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item (click)="deleteUser(user.id)">
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </p>
+  </mat-list-item>
+  }
+</mat-list>
 }
 @if (!filteredUsers.length) {
-    <mat-card>
-        <p>No users found.</p>
-    </mat-card>
+<mat-card>
+  <p>No users found.</p>
+</mat-card>
 }

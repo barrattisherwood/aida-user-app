@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 
@@ -20,7 +21,8 @@ export class AddUserComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddUserComponent>,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar
   ) {
     this.addUserForm = this.fb.group({
       fullName: ['', Validators.required],
@@ -32,10 +34,11 @@ export class AddUserComponent {
 
   onSubmit(): void {
     if (this.addUserForm.valid) {
-      // Handle form submission
       const newUser: User = this.addUserForm.value as User;
       this.userService.addUser(newUser).subscribe(user => {
-        console.log('User added successfully', user);
+        this.snackBar.open('User added successfully', 'Close', {
+          duration: 3000,
+        });
       });
       this.dialogRef.close();
     }
