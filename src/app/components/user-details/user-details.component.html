@@ -3,7 +3,25 @@
         <h2>{{ user.fullName }}</h2>
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Details:</strong> {{ user.details }}</p>
+        <button mat-button (click)="editMode = true">Edit</button>
     </mat-card>
+    @if (editMode) {
+        <mat-card>
+            <form (ngSubmit)="saveUser()">
+                <mat-form-field>
+                    <input matInput placeholder="Full Name" [(ngModel)]="user.fullName" name="fullName">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Email" [(ngModel)]="user.email" name="email">
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput placeholder="Details" [(ngModel)]="user.details" name="details"></textarea>
+                </mat-form-field>
+                <button mat-button type="submit">Save</button>
+                <button mat-button type="button" (click)="editMode = false">Cancel</button>
+            </form>
+        </mat-card>
+    }
 } @else {
     <mat-card>
         <p>No user found.</p>

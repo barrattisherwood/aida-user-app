@@ -1,0 +1,30 @@
+.home-button {
+  display: flex;
+  justify-content: left;
+
+  .logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    font-size: 2.9rem;
+  }
+
+  .hover-icon {
+    display: none;
+  }
+
+  &:hover {
+    .hover-icon {
+      display: flex;
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
