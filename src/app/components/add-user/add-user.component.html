@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Add User</h2>
+<mat-dialog-content>
+  <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Full Name</mat-label>
+      <input matInput formControlName="fullName" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Display Name</mat-label>
+      <input matInput formControlName="displayName" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Details</mat-label>
+      <input matInput formControlName="details" required>
+    </mat-form-field>
+    <button mat-button type="submit">Add User</button>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

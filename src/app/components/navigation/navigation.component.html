@@ -5,7 +5,8 @@
   </button>
   <span class="spacer"></span>
   <nav>
-    <button mat-button routerLink="/users">Users</button>
+    <button mat-icon-button (click)="openAddUserModal()">
+      <mat-icon>person_add</mat-icon>
+    </button>
   </nav>
 </mat-toolbar>
-<router-outlet></router-outlet>
