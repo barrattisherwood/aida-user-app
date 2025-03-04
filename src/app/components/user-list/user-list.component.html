@@ -1,6 +1,8 @@
-@if (users.length) {
+<app-search (search)="onSearch($event)"></app-search>
+
+@if (filteredUsers.length) {
     <mat-list>
-        @for (user of users; track user.id) {
+        @for (user of filteredUsers; track trackByUserId) {
             <mat-list-item class="user-list-item" role="listitem">
                 <p matListItemTitle><mat-icon>person</mat-icon>{{ user.fullName }}</p>
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
@@ -24,7 +26,7 @@
         }
     </mat-list>
 }
-@if (!users.length) {
+@if (!filteredUsers.length) {
     <mat-card>
         <p>No users found.</p>
     </mat-card>
