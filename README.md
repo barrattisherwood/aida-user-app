@@ -40,6 +40,8 @@ The development process focused on creating a modular and maintainable codebase.
 - **State Management:** Integrate a state management library like NgRx for more complex state management.
 - **Performance Optimization:** Optimize the application for better performance and faster load times.
 - **Responsive Design:** Improve the responsiveness of the application for better user experience on mobile devices.
+- **Unit Tests and CSS Polish:** Allocate more time to write comprehensive unit tests and polish the CSS for a better user experience.
+
 
 ## Challenges Faced and Solutions Implemented
 - **State Management:** Managing the state of the application was challenging. This was addressed by using Angular services and BehaviorSubject for state management.
@@ -62,9 +64,7 @@ The application communicates with a backend server to fetch and manage user data
     "displayName": "johndoe",
     "email": "john.doe@example.com",
     "details": "Some details about John Doe",
-    "role": "VIEWER"
   },
-  ...
 ]
 ```
 
@@ -79,7 +79,6 @@ The application communicates with a backend server to fetch and manage user data
   "displayName": "janedoe",
   "email": "jane.doe@example.com",
   "details": "Some details about Jane Doe",
-  "role": "ADMIN"
 }
 ```
 
@@ -93,10 +92,24 @@ The application communicates with a backend server to fetch and manage user data
   "displayName": "janedoe",
   "email": "jane.doe@example.com",
   "details": "Updated details about Jane Doe",
-  "role": "ADMIN"
 }
 ```
 
 ### Delete a user:
 
 **DELETE** `/api/users/:id`
+
+
+**GET** `/api/loggedInUsers`
+
+**Response:**
+```json
+[
+  {
+    "id": "1",
+    "fullName": "John Doe",
+    "email": "john.doe@example.com",
+    "role": "VIEWER"
+  },
+]
+```
