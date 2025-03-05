@@ -22,7 +22,7 @@ export class RegisteredUsersComponent {
   filteredUsers: User[] = [];
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  constructor(private userService: UserService) { }
+  constructor(public userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getLoggedInUsers().subscribe(data => {

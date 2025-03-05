@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { debounceTime } from 'rxjs';
@@ -9,7 +9,7 @@ import { debounceTime } from 'rxjs';
   standalone: true,
   imports: [MatFormField, FormsModule, MatInput, MatFormFieldModule, ReactiveFormsModule],
   templateUrl: './search.component.html',
-  styleUrl: './search.component.sass'
+  styleUrl: './search.component.scss'
 })
 export class SearchComponent {
   searchControl = new FormControl('');

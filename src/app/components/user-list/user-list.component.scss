@@ -4,3 +4,19 @@
     justify-content: space-between;
   }
 }
+
+.mat-mdc-header-row {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.mdc-data-table__row:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.mdc-data-table__row:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.mat-mdc-table {
+  background-color: rgba(255, 255, 255, 0);
+}

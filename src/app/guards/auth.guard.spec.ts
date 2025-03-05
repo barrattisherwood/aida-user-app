@@ -1,17 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
 import { AuthGuard } from './auth.guard';
 import { UserService } from '../services/user.service';
 import { UserRole } from '../models/user.model';
 
 describe('AuthGuard', () => {
-  let authGuard: AuthGuard;
+  let guard: AuthGuard;
   let userService: jasmine.SpyObj<UserService>;
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['currentUser$']);
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['getCurrentUser']);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
@@ -22,39 +21,47 @@ describe('AuthGuard', () => {
       ]
     });
 
-    authGuard = TestBed.inject(AuthGuard);
+    guard = TestBed.inject(AuthGuard);
     userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
     router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
   });
 
-  it('should allow access for ADMIN user', (done) => {
-    const mockUser = { id: '1', fullName: 'Admin User', role: UserRole.ADMIN, displayName: 'Admin', email: 'admin@example.com', details: 'Admin details' };
-    userService.currentUser$ = of(mockUser);
-
-    authGuard.canActivate().subscribe((result) => {
-      expect(result).toBeTrue();
-      done();
-    });
+  it('should be created', () => {
+    expect(guard).toBeTruthy();
   });
 
-  it('should deny access for non-ADMIN user', (done) => {
-    const mockUser = { id: '2', fullName: 'Regular User', role: UserRole.VIEWER, displayName: 'Regular', email: 'regular@example.com', details: 'Regular details' };
-    userService.currentUser$ = of(mockUser);
-
-    authGuard.canActivate().subscribe((result) => {
-      expect(result).toBeFalse();
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
-      done();
+  it('should allow activation if user is admin', () => {
+    userService.getCurrentUser.and.returnValue({
+      role: UserRole.ADMIN,
+      id: '',
+      fullName: '',
+      displayName: '',
+      email: '',
+      details: ''
     });
+
+    expect(guard.canActivate()).toBe(true);
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
-  it('should deny access for unauthenticated user', (done) => {
-    userService.currentUser$ = of(null);
-
-    authGuard.canActivate().subscribe((result) => {
-      expect(result).toBeFalse();
-      expect(router.navigate).toHaveBeenCalledWith(['/']);
-      done();
+  it('should navigate to home if user is not admin', () => {
+    userService.getCurrentUser.and.returnValue({
+      role: UserRole.VIEWER,
+      id: '',
+      fullName: '',
+      displayName: '',
+      email: '',
+      details: ''
     });
+
+    expect(guard.canActivate()).toBe(false);
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
+  });
+
+  it('should navigate to home if no user is logged in', () => {
+    userService.getCurrentUser.and.returnValue(null);
+
+    expect(guard.canActivate()).toBe(false);
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
 });
