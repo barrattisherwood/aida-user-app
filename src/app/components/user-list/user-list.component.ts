@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { MatCard } from '@angular/material/card';
-import { MatList, MatListItem } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,15 +15,16 @@ import { SortPipe } from '../../pipes/sort.pipe';
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [MatCard, MatList, MatListItem, RouterModule, MatIconModule, MatIconButton, MatMenuModule, SearchComponent, SortPipe],
+  imports: [MatCard, MatTableModule, RouterModule, MatIconModule, MatIconButton, MatMenuModule, SearchComponent, SortPipe],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+  styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
   sortField: string = 'id';
   sortOrder: 'asc' | 'desc' = 'asc';
+  displayedColumns: string[] = ['id', 'displayName', 'email', 'actions'];
 
   constructor(private userService: UserService, public dialog: MatDialog) { }
 
@@ -38,10 +39,6 @@ export class UserListComponent {
     const dialogRef = this.dialog.open(UserDetailsComponent, {
       width: '400px',
       data: { id: userId }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -70,5 +67,7 @@ export class UserListComponent {
       this.sortField = field;
       this.sortOrder = 'asc';
     }
+    // Trigger change detection to update the view
+    this.filteredUsers = [...this.filteredUsers];
   }
 }

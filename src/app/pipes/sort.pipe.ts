@@ -10,16 +10,16 @@ export class SortPipe implements PipeTransform {
       return users;
     }
 
-    const sortedUsers = users.sort((a, b) => {
-      if (a[field] < b[field]) {
+    return users.sort((a, b) => {
+      const valueA = a[field];
+      const valueB = b[field];
+      if (valueA < valueB) {
         return order === 'asc' ? -1 : 1;
-      } else if (a[field] > b[field]) {
+      } else if (valueA > valueB) {
         return order === 'asc' ? 1 : -1;
       } else {
         return 0;
       }
     });
-
-    return sortedUsers;
   }
 }
