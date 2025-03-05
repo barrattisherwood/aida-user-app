@@ -67,7 +67,6 @@ export class UserListComponent implements OnInit {
       this.sortField = field;
       this.sortOrder = 'asc';
     }
-    // Trigger change detection to update the view
     this.filteredUsers = [...this.filteredUsers];
   }
 }
