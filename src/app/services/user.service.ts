@@ -1,7 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { User } from '../models/user.model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class UserService {
   private apiUrlLoggedInUsers = 'http://localhost:3000/loggedInUsers';
   private currentUserSignal = signal<User | null>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrUsers);
@@ -19,6 +21,13 @@ export class UserService {
 
   getLoggedInUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrlLoggedInUsers);
+  }
+
+  getAllUsers(): Observable<User[]> {
+    return forkJoin([this.getUsers(), this.getLoggedInUsers()]).pipe(
+      map(([users, loggedInUsers]) => [...users, ...loggedInUsers]),
+      tap(allUsers => this.setTotalUsersCookie(allUsers.length))
+    );
   }
 
   getUserById(id: string): Observable<User> {
@@ -41,4 +50,9 @@ export class UserService {
     return this.currentUserSignal();
   }
 
+  private setTotalUsersCookie(totalUsers: number): void {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 1); // Set expiry time to 1 day
+    this.cookieService.set('RABO_USERS', totalUsers.toString(), expiryDate, '/');
+  }
 }

@@ -19,6 +19,7 @@ import { AnimatedTooltipDirective } from '../../directives/animated-tooltip.dire
   styleUrl: './navigation.component.scss'
 })
 export class NavigationComponent {
+  allUsers: User[] = [];
   loggedInUsers: User[] = [];
   currentUser: User | null = null;
 
@@ -30,6 +31,7 @@ export class NavigationComponent {
     this.userService.getLoggedInUsers().subscribe(users => {
       this.loggedInUsers = users;
     });
+    this.userService.getAllUsers().subscribe();
   }
 
   setCurrentUser(userId: string): void {
