@@ -5,17 +5,16 @@
   </button>
   <span class="spacer"></span>
   <nav>
-    @if (currentUser$ | async; as currentUser) {
+    @if (userService.getCurrentUser()) {
     <span class="mat-body-2 m-right-20">
-      <img class="user-thumb" src="assets/images/user_thumbnail.jpg" alt="User Thumbnail">{{ currentUser.fullName }}
+      <img class="user-thumb" src="assets/images/user_thumbnail.jpg" alt="User Thumbnail">{{
+      userService.getCurrentUser()!.fullName }}
     </span>
     }
-    @if (currentUser$ | async; as currentUser) {
-    @if (currentUser.role === 'ADMIN') {
+    @if (userService.getCurrentUser()?.role === 'ADMIN') {
     <button mat-button [routerLink]="['/registered-users']" routerLinkActive="router-link-active">
       Registered Users
     </button>
-    }
     }
     <button mat-icon-button (click)="openAddUserModal()" appAnimatedTooltip="Add User">
       <mat-icon>person_add</mat-icon>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
@@ -9,8 +9,7 @@ import { User } from '../models/user.model';
 export class UserService {
   private apiUrUsers = 'http://localhost:3000/users';
   private apiUrlLoggedInUsers = 'http://localhost:3000/loggedInUsers';
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  currentUser$ = this.currentUserSubject.asObservable();
+  private currentUserSignal = signal<User | null>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -35,7 +34,11 @@ export class UserService {
   }
 
   setCurrentUser(user: User): void {
-    this.currentUserSubject.next(user);
+    this.currentUserSignal.set(user);
+  }
+
+  getCurrentUser() {
+    return this.currentUserSignal();
   }
 
 }

@@ -8,23 +8,22 @@ import { RouterModule } from '@angular/router';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
-import { Observable } from 'rxjs';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AnimatedTooltipDirective } from '../../directives/animated-tooltip.directive';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [MatToolbar, MatButton, MatIcon, RouterModule, MatIconButton, MatMenu, MatMenuTrigger, MatMenuItem, AsyncPipe, CommonModule, AnimatedTooltipDirective],
+  imports: [MatToolbar, MatButton, MatIcon, RouterModule, MatIconButton, MatMenu, MatMenuTrigger, MatMenuItem, CommonModule, AnimatedTooltipDirective],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss'
 })
 export class NavigationComponent {
   loggedInUsers: User[] = [];
-  currentUser$: Observable<User | null>;
+  currentUser: User | null = null;
 
-  constructor(private dialog: MatDialog, private userService: UserService) {
-    this.currentUser$ = this.userService.currentUser$;
+  constructor(private dialog: MatDialog, public userService: UserService) {
+    this.currentUser = this.userService.getCurrentUser();
   }
 
   ngOnInit(): void {

@@ -16,7 +16,6 @@ export class AnimatedTooltipDirective {
   }
 
   @HostListener('mouseenter') onMouseEnter() {
-    debugger;
     this.renderer.setStyle(this.tooltipElement, 'visibility', 'visible');
     this.renderer.setProperty(this.tooltipElement, 'textContent', this.tooltipText);
   }

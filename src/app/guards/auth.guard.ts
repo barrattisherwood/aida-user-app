@@ -11,16 +11,13 @@ import { UserRole } from '../models/user.model';
 export class AuthGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router) { }
 
-  canActivate(): Observable<boolean> {
-    return this.userService.currentUser$.pipe(
-      map(user => {
-        if (user && user.role === UserRole.ADMIN) {
-          return true;
-        } else {
-          this.router.navigate(['/']);
-          return false;
-        }
-      })
-    );
+  canActivate(): boolean {
+    const user = this.userService.getCurrentUser(); // Or this.userService.currentUser() if public
+    if (user && user.role === UserRole.ADMIN) {
+      return true;
+    } else {
+      this.router.navigate(['/']);
+      return false;
+    }
   }
 }
