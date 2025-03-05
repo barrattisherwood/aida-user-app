@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -9,6 +9,8 @@ import { User } from '../models/user.model';
 export class UserService {
   private apiUrUsers = 'http://localhost:3000/users';
   private apiUrlLoggedInUsers = 'http://localhost:3000/loggedInUsers';
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -30,6 +32,10 @@ export class UserService {
 
   deleteUser(id: string): Observable<User> {
     return this.http.delete<User>(`${this.apiUrUsers}/${id}`);
+  }
+
+  setCurrentUser(user: User): void {
+    this.currentUserSubject.next(user);
   }
 
 }

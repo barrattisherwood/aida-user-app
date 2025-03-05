@@ -5,20 +5,28 @@
   </button>
   <span class="spacer"></span>
   <nav>
+    @if (currentUser$ | async; as currentUser) {
+    <span class="mat-body-2 m-right-20">
+      <img class="user-thumb" src="assets/images/user_thumbnail.jpg" alt="User Thumbnail">{{ currentUser.fullName }}
+    </span>
+    }
+    @if (currentUser$ | async; as currentUser) {
+    @if (currentUser.role === 'ADMIN') {
     <button mat-button [routerLink]="['/registered-users']" routerLinkActive="router-link-active">
       Registered Users
     </button>
-    <button mat-icon-button (click)="openAddUserModal()">
+    }
+    }
+    <button mat-icon-button (click)="openAddUserModal()" appAnimatedTooltip="Add User">
       <mat-icon>person_add</mat-icon>
     </button>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Admin Settings" appAnimatedTooltip="Admin Settings">
       <mat-icon>admin_panel_settings</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
       @for (user of loggedInUsers; track trackByUserId) {
       <button mat-menu-item (click)="setCurrentUser(user.id)">
-        <span>{{ user.displayName }}</span>
-        <img class="user-thumb" src="assets/images/user_thumbnail.jpg" alt="User Thumbnail">
+        <span>{{ user.fullName }}</span>
       </button>
       }
     </mat-menu>

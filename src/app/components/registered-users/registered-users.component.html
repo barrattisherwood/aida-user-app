@@ -4,19 +4,13 @@
 <mat-list>
   <mat-list-item class="user-list-item" role="listitem">
     <p matListItemTitle>
-      ID
-      <button mat-icon-button (click)="sortUsersBy('id')">
-        <mat-icon>swap_vert</mat-icon>
-      </button>
-    </p>
-    <p matListItemTitle>
       Display Name
       <button mat-icon-button (click)="sortUsersBy('fullName')">
         <mat-icon>swap_vert</mat-icon>
       </button>
     </p>
+    <p matListItemTitle>Email</p>
     <p matListItemTitle>Role</p>
-    <p></p>
   </mat-list-item>
   @for (user of filteredUsers; track trackByUserId) {
   <mat-list-item class="user-list-item" role="listitem">

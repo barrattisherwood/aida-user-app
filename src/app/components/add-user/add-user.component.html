@@ -2,15 +2,15 @@
 <mat-dialog-content>
   <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
-      <mat-label>Full Name</mat-label>
+      <mat-label aria-label="Full Name">Full Name</mat-label>
       <input matInput formControlName="fullName" required>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Email</mat-label>
+      <mat-label aria-label="Email">Email</mat-label>
       <input matInput formControlName="email" required>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>Display Name</mat-label>
+      <mat-label aria-label="Display Name">Display Name</mat-label>
       <input matInput formControlName="displayName" required>
     </mat-form-field>
     <mat-form-field>

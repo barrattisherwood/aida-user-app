@@ -10,18 +10,20 @@ import { UserDetailsComponent } from '../user-details/user-details.component';
 import { SearchComponent } from '../search/search.component';
 import { MatIconButton } from '@angular/material/button';
 import { User } from '../../models/user.model';
+import { SortPipe } from '../../pipes/sort.pipe';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [MatCard, MatList, MatListItem, RouterModule, MatIconModule, MatIconButton, MatMenuModule, SearchComponent],
+  imports: [MatCard, MatList, MatListItem, RouterModule, MatIconModule, MatIconButton, MatMenuModule, SearchComponent, SortPipe],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
-  sortDirection: 'asc' | 'desc' = 'asc';
+  sortField: string = 'id';
+  sortOrder: 'asc' | 'desc' = 'asc';
 
   constructor(private userService: UserService, public dialog: MatDialog) { }
 
@@ -50,8 +52,8 @@ export class UserListComponent {
     });
   }
 
-  trackByUserId(user: User): string {
-    return user.id;
+  trackByUserId(user: User): number {
+    return +user.id;
   }
 
   onSearch(searchTerm: string): void {
@@ -61,18 +63,12 @@ export class UserListComponent {
     );
   }
 
-  sortUsersBy(field: keyof User): void {
-    this.users.sort((a, b) => {
-      if (a[field] === undefined || b[field] === undefined) {
-        return 0;
-      } else if (a[field] < b[field]) {
-        return this.sortDirection === 'asc' ? -1 : 1;
-      } else if (a[field] > b[field]) {
-        return this.sortDirection === 'asc' ? 1 : -1;
-      } else {
-        return 0;
-      }
-    });
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  sortUsersBy(field: string): void {
+    if (this.sortField === field) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortOrder = 'asc';
+    }
   }
 }

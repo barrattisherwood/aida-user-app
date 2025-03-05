@@ -18,7 +18,7 @@
     <p matListItemTitle>Email</p>
     <p></p>
   </mat-list-item>
-  @for (user of filteredUsers; track trackByUserId) {
+  @for (user of filteredUsers | sort:sortField:sortOrder; track trackByUserId) {
   <mat-list-item class="user-list-item" role="listitem">
     <p matListItemTitle>{{ user.id }}</p>
     <p matListItemTitle>{{ user.displayName }}</p>
