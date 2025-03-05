@@ -29,7 +29,6 @@ export class UserListComponent {
     this.userService.getUsers().subscribe((data) => {
       this.users = data;
       this.filteredUsers = data;
-      console.log('Users loaded:', this.users);
     });
   }
 
@@ -64,7 +63,9 @@ export class UserListComponent {
 
   sortUsersBy(field: keyof User): void {
     this.users.sort((a, b) => {
-      if (a[field] < b[field]) {
+      if (a[field] === undefined || b[field] === undefined) {
+        return 0;
+      } else if (a[field] < b[field]) {
         return this.sortDirection === 'asc' ? -1 : 1;
       } else if (a[field] > b[field]) {
         return this.sortDirection === 'asc' ? 1 : -1;

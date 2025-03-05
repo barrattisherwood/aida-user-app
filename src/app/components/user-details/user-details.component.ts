@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserService } from '../../services/user.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-details',
@@ -14,14 +15,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './user-details.component.sass'
 })
 export class UserDetailsComponent {
-  user: any;
+  @Input() user!: User;
   editMode = false;
 
   constructor(
     public dialogRef: MatDialogRef<UserDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const userId = this.data.id;

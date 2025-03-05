@@ -5,8 +5,22 @@
   </button>
   <span class="spacer"></span>
   <nav>
+    <button mat-button [routerLink]="['/registered-users']" routerLinkActive="router-link-active">
+      Registered Users
+    </button>
     <button mat-icon-button (click)="openAddUserModal()">
       <mat-icon>person_add</mat-icon>
     </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
+      <mat-icon>admin_panel_settings</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      @for (user of loggedInUsers; track trackByUserId) {
+      <button mat-menu-item (click)="setCurrentUser(user.id)">
+        <span>{{ user.displayName }}</span>
+        <img class="user-thumb" src="assets/images/user_thumbnail.jpg" alt="User Thumbnail">
+      </button>
+      }
+    </mat-menu>
   </nav>
 </mat-toolbar>

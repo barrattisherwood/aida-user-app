@@ -7,24 +7,29 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class UserService {
-  // TODO: store the API URL in an environment variable
-  private apiUrl = 'http://localhost:3000/users';
-  constructor(private http: HttpClient) {}
+  private apiUrUsers = 'http://localhost:3000/users';
+  private apiUrlLoggedInUsers = 'http://localhost:3000/loggedInUsers';
+
+  constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+    return this.http.get<User[]>(this.apiUrUsers);
+  }
+
+  getLoggedInUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrlLoggedInUsers);
   }
 
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`);
+    return this.http.get<User>(`${this.apiUrUsers}/${id}`);
   }
 
   addUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
+    return this.http.post<User>(this.apiUrUsers, user);
   }
 
   deleteUser(id: string): Observable<User> {
-    return this.http.delete<User>(`${this.apiUrl}/${id}`);
+    return this.http.delete<User>(`${this.apiUrUsers}/${id}`);
   }
-  
+
 }
